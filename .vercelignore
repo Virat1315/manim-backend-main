@@ -1,0 +1,7 @@
+.venv
+CONTENT
+uploads
+media
+__pycache__
+*.svg
+.git

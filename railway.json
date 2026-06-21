@@ -1,0 +1,36 @@
+{
+  "project": {
+    "name": "manim-backend"
+  },
+  "services": [
+    {
+      "name": "web",
+      "start": "uvicorn main:app --host 0.0.0.0 --port $PORT",
+      "port": 8000
+    },
+    {
+      "name": "worker",
+      "start": "celery -A gen_topic.celery_app worker --loglevel=info"
+    }
+  ]
+}
+{
+  "build": {
+    "builder": "dockerfile",
+    "dockerfilePath": "Dockerfile"
+  },
+  "deploy": {
+    "services": [
+      {
+        "name": "api",
+        "type": "web",
+        "dockerfilePath": "Dockerfile",
+        "dockerfileBuildArgs": {},
+        "startCommand": "gunicorn main:app -k uvicorn.workers.UvicornWorker -b 0.0.0.0:${PORT:-8000} --workers 2 --timeout 300",
+        "env": {
+          "REDIS_URL": "redis://redis:6379/0"
+        }
+      }
+    ]
+  }
+}

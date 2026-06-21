@@ -1,0 +1,15 @@
+fastapi
+mangum
+python-multipart
+python-dotenv
+google-genai==0.8.3
+PyPDF2==3.0.1
+pymupdf
+gTTS
+pydantic==2.10.6
+redis==5.2.1
+uvicorn
+celery
+boto3
+cloudinary
+gunicorn

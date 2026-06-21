@@ -1,0 +1,8 @@
+CONTENT/
+uploads/
+__pycache__/
+media/
+*.svg
+.env
+.vercel
+.vercel
