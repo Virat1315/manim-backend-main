@@ -1,3 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+env/
+venv/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Environment
+.env
+.env.*
+
+# Uploads and generated content
+uploads/
+media/
+CONTENT/
+
+# IDEs
+.vscode/
+.idea/
+
+# Node
+node_modules/
+.next/
+
+# OS
+.DS_Store
 CONTENT/
 uploads/
 __pycache__/
