@@ -1,0 +1,35 @@
+name: Deploy backend to Render (manual)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy web service to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          REPO: ${{ github.repository }}
+          BRANCH: main
+        run: |
+          set -e
+          echo "Attempting to create Render web service (if it doesn't exist)"
+          # This uses the Render REST API to create a service from the GitHub repo
+          curl -sS -X POST "https://api.render.com/v1/services" \
+            -H "Authorization: Bearer ${RENDER_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d "{ \
+              \"name\": \"manim-backend-web\", \
+              \"repository\": \"https://github.com/${REPO}\", \
+              \"branch\": \"${BRANCH}\", \
+              \"service\": { \"type\": \"web_service\" }, \
+              \"buildCommand\": \"pip install -r requirements.txt\", \
+              \"startCommand\": \"gunicorn main:app -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$PORT\" \
+            }"
+
+      - name: Trigger deploy for worker (placeholder)
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          echo "Worker creation should be configured via Render dashboard if needed."
