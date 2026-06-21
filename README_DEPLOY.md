@@ -1,3 +1,36 @@
+Deployment notes
+================
+
+This repo contains the backend (FastAPI) and frontend (Next.js) components.
+
+Quick steps to deploy:
+
+- Backend: The repository includes a `Dockerfile` and `docker-compose.yml`. On push to `main`, GitHub Actions will build and publish a Docker image to GitHub Container Registry (`ghcr.io/${{ github.repository }}:latest`). Use that image to deploy on Render, Fly, Railway, or any container host.
+
+- Frontend: A GitHub Actions workflow template is included to deploy to Vercel. Set `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID` in GitHub Secrets to enable it.
+
+Required environment variables (set in your host provider):
+
+- GEMINI
+- REDIS_URL
+- UPLOAD_DIR
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- S3_BUCKET
+- CLOUDINARY_URL (or CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET)
+- GROQ (optional)
+- GOOGLE_API_KEY (optional)
+- PORT (platform provided)
+
+Local testing:
+
+Run web locally:
+
+```powershell
+$env:PORT=9001; $env:CELERY_TASK_ALWAYS_EAGER=1; .venv\Scripts\python.exe -m uvicorn main:app --host 0.0.0.0 --port $env:PORT
+```
+
+To run Redis and worker locally, use `docker compose up --build` (Docker required).
 Push and deploy instructions
 ===========================
 
